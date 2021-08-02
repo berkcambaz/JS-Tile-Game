@@ -63,10 +63,16 @@ function Tilemap() {
    * @returns {{x: number, collides: boolean}} Returns x position and if entity collides or not.
    */
   this.checkCollisionX = (x, y, w, h) => {
-    if (w) --w;
+    /**  
+     * If not a collision check for the top-left of the entity (0,0),
+     * the actual width of the entity is 0 to width - 1, so subtract 1 from the width.
+    */
+    if (w !== 0) --w;
 
-    const test = y % this.tileSize ? this.tileSize : 0;
-    for (let checkY = y; checkY < y + h + test; checkY += this.tileSize) {
+    /* If y position of entity is not axis-aligned, add the tile on the bottom right/left for the collision check. */
+    const offset = y % this.tileSize ? this.tileSize : 0;
+    const checkHeight = y + h + offset;
+    for (let checkY = y; checkY < checkHeight; checkY += this.tileSize) {
       const tilePos = util.worldToTilePos(x + w, checkY);
       if (tilemap.getTile(tilePos.x, tilePos.y) === 1) {
         return { x: w === 0 ? tilePos.x * this.tileSize + this.tileSize : tilePos.x * this.tileSize - w - 1, collides: true };
@@ -85,10 +91,16 @@ function Tilemap() {
   * @returns {{y: number, collides: boolean}} Returns y position and if entity collides or not.
   */
   this.checkCollisionY = (x, y, w, h) => {
-    if (h) --h;
+    /**  
+     * If not a collision check for the top-left of the entity (0,0),
+     * the actual height of the entity is 0 to height - 1, so subtract 1 from the height.
+    */
+    if (h !== 0) --h;
 
-    const test = x % this.tileSize ? this.tileSize : 0;
-    for (let checkX = x; checkX < x + w + test; checkX += this.tileSize) {
+    /* If x position of entity is not axis-aligned, add the tile on the top/bottom right for the collision check. */
+    const offset = x % this.tileSize ? this.tileSize : 0;
+    const checkWidth = x + w + offset;
+    for (let checkX = x; checkX < checkWidth; checkX += this.tileSize) {
       const tilePos = util.worldToTilePos(checkX, y + h);
       if (tilemap.getTile(tilePos.x, tilePos.y) === 1) {
         return { y: h === 0 ? tilePos.y * this.tileSize + this.tileSize : tilePos.y * this.tileSize - h - 1, collides: true };

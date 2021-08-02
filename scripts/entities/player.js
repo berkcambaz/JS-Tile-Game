@@ -14,7 +14,7 @@ function Player() {
   let width = 16;
   let height = 16;
 
-  this.speed = 16; /* Make sure it's never higher than 16 (tileSize). */
+  this.speed = 8; /* Make sure it's never higher than 16 (tileSize). */
 
   this.jumpSpeed = 10; /* Make sure it's never higher than 16 (tileSize). */
   this.jumpHeight = 96;
@@ -75,10 +75,6 @@ function Player() {
   /** @param {CanvasRenderingContext2D} ctx */
   this.render = (ctx, alpha) => {
     ctx.drawImage(sprites.dev_texture.img, util.interp(oldX, this.x, alpha), util.interp(oldY, this.y, alpha), width, height);
-  }
-
-  function jump() {
-
   }
 }
 
