@@ -54,6 +54,14 @@ function Tilemap() {
     buffer.drawImage(sprite.img, x * this.tileSize, y * this.tileSize);
   }
 
+  /**
+   * 
+   * @param {number} x X position of the entity.
+   * @param {number} y Y position of the entity.
+   * @param {number} w Width of the entity's collider, must be at least 16 (tileSize).
+   * @param {number} h Height of the entity's collider, must be at least 16 (tileSize).
+   * @returns {{x: number, collides: boolean}} Returns x position and if entity collides or not.
+   */
   this.checkCollisionX = (x, y, w, h) => {
     if (w) --w;
 
@@ -68,6 +76,14 @@ function Tilemap() {
     return { x: x, collides: false };
   }
 
+  /**
+  * 
+  * @param {number} x X position of the entity.
+  * @param {number} y Y position of the entity.
+  * @param {number} w Width of the entity's collider, must be at least 16 (tileSize).
+  * @param {number} h Height of the entity's collider, must be at least 16 (tileSize).
+  * @returns {{y: number, collides: boolean}} Returns y position and if entity collides or not.
+  */
   this.checkCollisionY = (x, y, w, h) => {
     if (h) --h;
 

@@ -10,7 +10,6 @@ function Player() {
   this.jumpSpeed = 10; /* Make sure it's never higher than 16 (tileSize) */
   this.jumpHeight = 96;
   let remainingJumpHeight = 0;
-  this.jumpCount = 1;
   this.grounded = false;
   this.jumping = false;
   this.fallSpeed = 0;
