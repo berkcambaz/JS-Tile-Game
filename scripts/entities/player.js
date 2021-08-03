@@ -4,6 +4,7 @@ import { sprites, sounds } from "../resources.js";
 import { util } from "../util.js";
 import { TILE_MODE } from "../tile.js";
 import { physics } from "../physics.js";
+import { maths } from "../maths.js";
 
 function Player() {
   this.x = 0;
@@ -72,7 +73,7 @@ function Player() {
       this.jumping = !collisionUp.collides;
     } else {
       this.jumping = false;
-      this.fallSpeed = util.clamp(this.fallSpeed + 1, 0, this.fallSpeedMax);
+      this.fallSpeed = maths.clamp(this.fallSpeed + 1, 0, this.fallSpeedMax);
       this.y += this.fallSpeed;
       const collisionDown = tilemap.checkCollisionY(this.x, this.y, width, height);
       this.y = collisionDown.y;
@@ -90,11 +91,15 @@ function Player() {
       const collisionRight = tilemap.checkCollisionX(this.x, this.y, width, height);
       this.x = collisionRight.x;
     }
+
+    // Clamp to make sure player doesn't go outside tilemap
+    this.x = maths.clamp(this.x, 0, tilemap.width - width - 1);
+    this.y = maths.clamp(this.y, 0, tilemap.height - height - 1);
   }
 
   /** @param {CanvasRenderingContext2D} ctx */
   this.render = (ctx, alpha) => {
-    ctx.drawImage(sprites.player.img, util.interp(oldX, this.x, alpha), util.interp(oldY, this.y, alpha), width, height);
+    ctx.drawImage(sprites.player.img, maths.interp(oldX, this.x, alpha), maths.interp(oldY, this.y, alpha), width, height);
     ctx.strokeRect(this.x, this.y, width, height);
   }
 

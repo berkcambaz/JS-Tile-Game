@@ -2,6 +2,7 @@ import { tilemap } from "./tilemap.js";
 import { player } from "./entities/player.js";
 import { asset } from "./asset.js";
 import { input } from "./input.js";
+import { maths } from "./maths.js";
 
 function init(callback) {
   const calls = 2;
@@ -12,7 +13,7 @@ function init(callback) {
 }
 
 init(() => {
-  tilemap.generate(100, 100);
+  tilemap.generate(16, 16);
 
   /** @type {HTMLCanvasElement} */
   const canvas = document.getElementById("main");
