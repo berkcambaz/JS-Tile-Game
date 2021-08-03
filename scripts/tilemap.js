@@ -75,9 +75,14 @@ function Tilemap() {
     */
     if (w !== 0) --w;
 
-    /* If y position of entity is not axis-aligned, add the tile on the bottom right/left for the collision check. */
-    const offset = y % this.tileSize ? this.tileSize : 0;
-    const checkHeight = y + h + offset;
+    /** 
+     * Check height formula:
+     * 1. Get how many pixels the entity is on the next tile
+     * 2. Add height to it
+     * 3. Divide by 16 (tileSize) and ceil it (2.5 becomes 3 since we need to check each tile entity touches)
+     * 4. Time the amount of tiles we need to check by 16 (tileSize) and add y
+    */
+    const checkHeight = Math.ceil((y % this.tileSize + h) / this.tileSize) * this.tileSize + y;
     for (let checkY = y; checkY < checkHeight; checkY += this.tileSize) {
       const tilePos = util.worldToTilePos(x + w, checkY);
       if (tilemap.getTile(tilePos.x, tilePos.y) === 1) {
@@ -103,9 +108,14 @@ function Tilemap() {
     */
     if (h !== 0) --h;
 
-    /* If x position of entity is not axis-aligned, add the tile on the top/bottom right for the collision check. */
-    const offset = x % this.tileSize ? this.tileSize : 0;
-    const checkWidth = x + w + offset;
+    /** 
+     * Check width formula:
+     * 1. Get how many pixels the entity is on the next tile
+     * 2. Add width to it
+     * 3. Divide by 16 (tileSize) and ceil it (2.5 becomes 3 since we need to check each tile entity touches)
+     * 4. Time the amount of tiles we need to check by 16 (tileSize) and add x
+    */
+    const checkWidth = Math.ceil((x % this.tileSize + w) / this.tileSize) * this.tileSize + x;
     for (let checkX = x; checkX < checkWidth; checkX += this.tileSize) {
       const tilePos = util.worldToTilePos(checkX, y + h);
       if (tilemap.getTile(tilePos.x, tilePos.y) === 1) {

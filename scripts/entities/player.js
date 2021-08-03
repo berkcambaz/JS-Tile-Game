@@ -12,12 +12,12 @@ function Player() {
   let oldX = 0;
   let oldY = 0;
 
-  let width = 16;
-  let height = 16;
+  let width = 8;
+  let height = 8;
 
   this.speed = 8; /* Make sure it's never higher than 16 (tileSize). */
 
-  this.jumpSpeed = 10; /* Make sure it's never higher than 16 (tileSize). */
+  this.jumpSpeed = 8; /* Make sure it's never higher than 16 (tileSize). */
   this.jumpHeight = 96;
   let remainingJumpHeight = 0;
   this.grounded = false; /* True if touches the ground. */
@@ -89,7 +89,8 @@ function Player() {
 
   /** @param {CanvasRenderingContext2D} ctx */
   this.render = (ctx, alpha) => {
-    ctx.drawImage(sprites.dev_texture.img, util.interp(oldX, this.x, alpha), util.interp(oldY, this.y, alpha), width, height);
+    ctx.drawImage(sprites.player.img, util.interp(oldX, this.x, alpha), util.interp(oldY, this.y, alpha), width, height);
+    ctx.strokeRect(this.x, this.y, width, height);
   }
 }
 
