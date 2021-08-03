@@ -12,7 +12,7 @@ function init(callback) {
 }
 
 init(() => {
-  tilemap.generate(32, 32);
+  tilemap.generate(100, 100);
 
   /** @type {HTMLCanvasElement} */
   const canvas = document.getElementById("main");

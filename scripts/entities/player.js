@@ -3,6 +3,7 @@ import { input } from "../input.js";
 import { sprites, sounds } from "../resources.js";
 import { util } from "../util.js";
 import { TILE_MODE } from "../tile.js";
+import { physics } from "../physics.js";
 
 function Player() {
   this.x = 0;
@@ -12,8 +13,8 @@ function Player() {
   let oldX = 0;
   let oldY = 0;
 
-  let width = 8;
-  let height = 8;
+  let width = 24;
+  let height = 42;
 
   this.speed = 8; /* Make sure it's never higher than 16 (tileSize). */
 
@@ -36,7 +37,7 @@ function Player() {
     if (input.mouse.pressed) {
       if (this.tileMode === TILE_MODE.BREAK)
         tilemap.setTileWorldPos(input.mouse.x, input.mouse.y, sprites.air);
-      else if (this.tileMode === TILE_MODE.PLACE)
+      else if (this.tileMode === TILE_MODE.PLACE && !physics.box_tile(this.x, this.y, width, height, input.mouse.x, input.mouse.y))
         tilemap.setTileWorldPos(input.mouse.x, input.mouse.y, sprites.dev_texture);
     }
 
