@@ -29,12 +29,16 @@ function Player() {
 
   this.tileMode = TILE_MODE.BREAK;
 
+  this.tileReach = 4;
+  this.tileReachInPixels = this.tileReach * tilemap.tileSize;
+
   this.update = () => {
     oldX = this.x;
     oldY = this.y;
 
+    const center = this.getCenter();
     // If mouse is pressed, break or place a tile according to tile mode
-    if (input.mouse.pressed) {
+    if (input.mouse.pressed && physics.box_tile(center.x - this.tileReachInPixels, center.y - this.tileReachInPixels, this.tileReachInPixels * 2, this.tileReachInPixels * 2, input.mouse.x, input.mouse.y)) {
       if (this.tileMode === TILE_MODE.BREAK)
         tilemap.setTileWorldPos(input.mouse.x, input.mouse.y, sprites.air);
       else if (this.tileMode === TILE_MODE.PLACE && !physics.box_tile(this.x, this.y, width, height, input.mouse.x, input.mouse.y))
@@ -92,6 +96,10 @@ function Player() {
   this.render = (ctx, alpha) => {
     ctx.drawImage(sprites.player.img, util.interp(oldX, this.x, alpha), util.interp(oldY, this.y, alpha), width, height);
     ctx.strokeRect(this.x, this.y, width, height);
+  }
+
+  this.getCenter = () => {
+    return { x: this.x + width / 2, y: this.y + height / 2 };
   }
 }
 
