@@ -49,6 +49,12 @@ function Tilemap() {
     return tiles[x + y * this.widthInTiles];
   }
 
+  this.setTileWorldPos = (worldPosX, worldPosY, sprite) => {
+    const tilePos = util.worldToTilePos(worldPosX, worldPosY);
+    tiles[tilePos.x + tilePos.y * this.widthInTiles] = sprite.id;
+    buffer.drawImage(sprite.img, tilePos.x * this.tileSize, tilePos.y * this.tileSize);
+  }
+
   this.setTile = (x, y, sprite) => {
     tiles[x + y * this.widthInTiles] = sprite.id;
     buffer.drawImage(sprite.img, x * this.tileSize, y * this.tileSize);

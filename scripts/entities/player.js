@@ -2,6 +2,7 @@ import { tilemap } from "../tilemap.js";
 import { input } from "../input.js";
 import { sprites, sounds } from "../resources.js";
 import { util } from "../util.js";
+import { TILE_MODE } from "../tile.js";
 
 function Player() {
   this.x = 0;
@@ -25,11 +26,25 @@ function Player() {
   this.fallSpeed = 0; /* Gradually increases as player falls, capped at 16 (tileSize). */
   this.fallSpeedMax = 10; /* Make sure it's never higher than 16 (tileSize). */
 
+  this.tileMode = TILE_MODE.BREAK;
+
   this.update = () => {
     oldX = this.x;
     oldY = this.y;
 
-    if (input.getKeyDown(input.JUMP) && this.grounded) {
+    // If mouse is pressed, break or place a tile according to tile mode
+    if (input.mouse.pressed) {
+      if (this.tileMode === TILE_MODE.BREAK)
+        tilemap.setTileWorldPos(input.mouse.x, input.mouse.y, sprites.air);
+      else if (this.tileMode === TILE_MODE.PLACE)
+        tilemap.setTileWorldPos(input.mouse.x, input.mouse.y, sprites.dev_texture);
+    }
+
+    // Change tile modes on appropriate key presses
+    if (input.getKeyDown(input.KEY_BREAK)) this.tileMode = TILE_MODE.BREAK;
+    else if (input.getKeyDown(input.KEY_PLACE)) this.tileMode = TILE_MODE.PLACE;
+
+    if (input.getKeyDown(input.KEY_JUMP) && this.grounded) {
       this.jumping = true;
       this.fallSpeed = 0;
       let jumpAmount;
@@ -40,7 +55,7 @@ function Player() {
       this.y += -jumpAmount;
       const collisionUp = tilemap.checkCollisionY(this.x, this.y, width, 0);
       this.y = collisionUp.y;
-    } else if (input.getKey(input.JUMP) && this.jumping && remainingJumpHeight > 0) {
+    } else if (input.getKey(input.KEY_JUMP) && this.jumping && remainingJumpHeight > 0) {
       let jumpAmount;
       remainingJumpHeight -= this.jumpSpeed;
       if (remainingJumpHeight < 0) jumpAmount = this.jumpSpeed + remainingJumpHeight;
@@ -59,13 +74,13 @@ function Player() {
       this.grounded = collisionDown.collides;
     }
 
-    //if (input.getKey(input.DOWN)) {}
-    if (input.getKey(input.LEFT)) {
+    if (input.getKey(input.DOWN)) { }
+    if (input.getKey(input.KEY_LEFT)) {
       this.x += -this.speed;
       const collisionLeft = tilemap.checkCollisionX(this.x, this.y, 0, height);
       this.x = collisionLeft.x;
     }
-    if (input.getKey(input.RIGHT)) {
+    if (input.getKey(input.KEY_RIGHT)) {
       this.x += this.speed;
       const collisionRight = tilemap.checkCollisionX(this.x, this.y, width, height);
       this.x = collisionRight.x;

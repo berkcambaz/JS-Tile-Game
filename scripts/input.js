@@ -6,17 +6,21 @@ function Input() {
   this.mouse = { x: 0, y: 0, pressed: false };
 
   let keyId = 0;
-  this.UP = keyId++;
-  this.DOWN = keyId++;
-  this.LEFT = keyId++;
-  this.RIGHT = keyId++;
-  this.JUMP = keyId++;
+  this.KEY_UP = keyId++;
+  this.KEY_DOWN = keyId++;
+  this.KEY_LEFT = keyId++;
+  this.KEY_RIGHT = keyId++;
+  this.KEY_JUMP = keyId++;
+  this.KEY_BREAK = keyId++;
+  this.KEY_PLACE = keyId++;
   const keyToId = {
-    "KeyW": this.UP,
-    "KeyS": this.DOWN,
-    "KeyA": this.LEFT,
-    "KeyD": this.RIGHT,
-    "Space": this.JUMP
+    "KeyW": this.KEY_UP,
+    "KeyS": this.KEY_DOWN,
+    "KeyA": this.KEY_LEFT,
+    "KeyD": this.KEY_RIGHT,
+    "Space": this.KEY_JUMP,
+    "Digit1": this.KEY_BREAK,
+    "Digit2": this.KEY_PLACE
   };
 
   for (let i = 0; i < keyId; ++i) keys[i] = false;
