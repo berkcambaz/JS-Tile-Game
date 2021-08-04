@@ -42,7 +42,7 @@ function Player() {
       if (this.tileMode === TILE_MODE.BREAK)
         tilemap.setTileWorldPos(input.mouse.x, input.mouse.y, sprites.air);
       else if (this.tileMode === TILE_MODE.PLACE && !physics.box_tile(this.x, this.y, width, height, input.mouse.x, input.mouse.y))
-        tilemap.setTileWorldPos(input.mouse.x, input.mouse.y, sprites.dev_texture);
+        tilemap.setTileWorldPos(input.mouse.x, input.mouse.y, sprites.stone);
     }
 
     // Change tile modes on appropriate key presses
@@ -87,13 +87,16 @@ function Player() {
       this.x = collisionLeft.x;
 
       if (remainingMovement && collisionLeft.collides) {
-        this.y -= tilemap.tileSize;
+        if (!this.jumping) this.y -= tilemap.tileSize;
         const collisionTop = tilemap.checkCollisionY(this.x, this.y, width, 0);
         if (collisionTop.collides) { this.y += tilemap.tileSize; }
         else {
           this.x += remainingMovement;
           collisionLeft = tilemap.checkCollisionX(this.x, this.y, 0, height);
-          if (collisionLeft.collides) { this.y += tilemap.tileSize; this.x -= remainingMovement; }
+          if (collisionLeft.collides) {
+            if (!this.jumping) this.y += tilemap.tileSize;
+            this.x -= remainingMovement;
+          }
         }
       }
       else { this.x = collisionLeft.x; }
@@ -105,13 +108,16 @@ function Player() {
       this.x = collisionRight.x;
 
       if (remainingMovement && collisionRight.collides) {
-        this.y -= tilemap.tileSize;
+        if (!this.jumping) this.y -= tilemap.tileSize;
         const collisionTop = tilemap.checkCollisionY(this.x, this.y, width, 0);
         if (collisionTop.collides) { this.y += tilemap.tileSize; }
         else {
           this.x += remainingMovement;
           collisionRight = tilemap.checkCollisionX(this.x, this.y, width, height);
-          if (collisionRight.collides) { this.y += tilemap.tileSize; this.x -= remainingMovement; }
+          if (collisionRight.collides) {
+            if (!this.jumping) this.y += tilemap.tileSize;
+            this.x -= remainingMovement;
+          }
         }
       }
       else { this.x = collisionRight.x; }
@@ -124,7 +130,7 @@ function Player() {
 
   /** @param {CanvasRenderingContext2D} ctx */
   this.render = (ctx, alpha) => {
-    ctx.drawImage(sprites.player.img, maths.interp(oldX, this.x, alpha), maths.interp(oldY, this.y, alpha), width, height);
+    ctx.drawImage(sprites.angler.img, maths.interp(oldX, this.x, alpha), maths.interp(oldY, this.y, alpha), width, height);
     //ctx.strokeRect(this.x, this.y, width, height);
   }
 

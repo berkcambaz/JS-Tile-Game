@@ -27,8 +27,8 @@ function Tilemap() {
           tiles[i++] = sprites.air.id;
         }
         else {
-          buffer.drawImage(sprites.dev_texture.img, x, y);
-          tiles[i++] = sprites.dev_texture.id;
+          buffer.drawImage(sprites.dirt.img, x, y);
+          tiles[i++] = sprites.dirt.id;
         }
       }
     }
@@ -79,7 +79,7 @@ function Tilemap() {
     const checkHeight = Math.ceil((y % this.tileSize + h) / this.tileSize) * this.tileSize + y;
     for (let checkY = y; checkY < checkHeight; checkY += this.tileSize) {
       const tilePos = util.worldToTilePos(x + w, checkY);
-      if (tilemap.getTile(tilePos.x, tilePos.y) === 1) {
+      if (tilemap.getTile(tilePos.x, tilePos.y) !== 0) {
         return { x: w === 0 ? tilePos.x * this.tileSize + this.tileSize : tilePos.x * this.tileSize - w - 1, collides: true };
       }
     }
@@ -112,7 +112,7 @@ function Tilemap() {
     const checkWidth = Math.ceil((x % this.tileSize + w) / this.tileSize) * this.tileSize + x;
     for (let checkX = x; checkX < checkWidth; checkX += this.tileSize) {
       const tilePos = util.worldToTilePos(checkX, y + h);
-      if (tilemap.getTile(tilePos.x, tilePos.y) === 1) {
+      if (tilemap.getTile(tilePos.x, tilePos.y) !== 0) {
         return { y: h === 0 ? tilePos.y * this.tileSize + this.tileSize : tilePos.y * this.tileSize - h - 1, collides: true };
       }
     }

@@ -9,7 +9,7 @@ function Asset() {
     for (const key in sprites) {
       const img = new Image();
       img.onload = () => { if (++loadedSpriteCount === spriteCount) callback(); };
-      img.src = "/sprites" + sprites[key].path + key + ".png";
+      img.src = "/sprites" + (sprites[key].path === "/" ? sprites[key].path : sprites[key].path + "/") + key + ".png";
       sprites[key].img = img;
       sprites[key].id = id++;
     }
