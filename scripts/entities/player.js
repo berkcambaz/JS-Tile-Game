@@ -1,7 +1,6 @@
 import { tilemap } from "../tilemap.js";
 import { input } from "../input.js";
 import { sprites, sounds } from "../resources.js";
-import { util } from "../util.js";
 import { TILE_MODE } from "../tile.js";
 import { physics } from "../physics.js";
 import { maths } from "../maths.js";
@@ -83,24 +82,50 @@ function Player() {
     if (input.getKey(input.DOWN)) { }
     if (input.getKey(input.KEY_LEFT)) {
       this.x += -this.speed;
-      const collisionLeft = tilemap.checkCollisionX(this.x, this.y, 0, height);
+      let collisionLeft = tilemap.checkCollisionX(this.x, this.y, 0, height);
+      const remainingMovement = this.x - collisionLeft.x;
       this.x = collisionLeft.x;
+
+      if (remainingMovement && collisionLeft.collides) {
+        this.y -= tilemap.tileSize;
+        const collisionTop = tilemap.checkCollisionY(this.x, this.y, width, 0);
+        if (collisionTop.collides) { this.y += tilemap.tileSize; }
+        else {
+          this.x += remainingMovement;
+          collisionLeft = tilemap.checkCollisionX(this.x, this.y, 0, height);
+          if (collisionLeft.collides) { this.y += tilemap.tileSize; this.x -= remainingMovement; }
+        }
+      }
+      else { this.x = collisionLeft.x; }
     }
     if (input.getKey(input.KEY_RIGHT)) {
       this.x += this.speed;
-      const collisionRight = tilemap.checkCollisionX(this.x, this.y, width, height);
+      let collisionRight = tilemap.checkCollisionX(this.x, this.y, width, height);
+      const remainingMovement = this.x - collisionRight.x;
       this.x = collisionRight.x;
+
+      if (remainingMovement && collisionRight.collides) {
+        this.y -= tilemap.tileSize;
+        const collisionTop = tilemap.checkCollisionY(this.x, this.y, width, 0);
+        if (collisionTop.collides) { this.y += tilemap.tileSize; }
+        else {
+          this.x += remainingMovement;
+          collisionRight = tilemap.checkCollisionX(this.x, this.y, width, height);
+          if (collisionRight.collides) { this.y += tilemap.tileSize; this.x -= remainingMovement; }
+        }
+      }
+      else { this.x = collisionRight.x; }
     }
 
     // Clamp to make sure player doesn't go outside tilemap
-    this.x = maths.clamp(this.x, 0, tilemap.width - width - 1);
-    this.y = maths.clamp(this.y, 0, tilemap.height - height - 1);
+    //this.x = maths.clamp(this.x, 0, tilemap.width - width - 1);
+    //this.y = maths.clamp(this.y, 0, tilemap.height - height - 1);
   }
 
   /** @param {CanvasRenderingContext2D} ctx */
   this.render = (ctx, alpha) => {
     ctx.drawImage(sprites.player.img, maths.interp(oldX, this.x, alpha), maths.interp(oldY, this.y, alpha), width, height);
-    ctx.strokeRect(this.x, this.y, width, height);
+    //ctx.strokeRect(this.x, this.y, width, height);
   }
 
   this.getCenter = () => {

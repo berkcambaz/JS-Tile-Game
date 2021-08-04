@@ -13,6 +13,7 @@ function Input() {
   this.KEY_JUMP = keyId++;
   this.KEY_BREAK = keyId++;
   this.KEY_PLACE = keyId++;
+  this.KEY_INVENTORY = keyId++;
   const keyToId = {
     "KeyW": this.KEY_UP,
     "KeyS": this.KEY_DOWN,
@@ -20,7 +21,8 @@ function Input() {
     "KeyD": this.KEY_RIGHT,
     "Space": this.KEY_JUMP,
     "Digit1": this.KEY_BREAK,
-    "Digit2": this.KEY_PLACE
+    "Digit2": this.KEY_PLACE,
+    "KeyE": this.KEY_INVENTORY
   };
 
   for (let i = 0; i < keyId; ++i) keys[i] = false;

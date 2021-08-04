@@ -22,7 +22,7 @@ function Tilemap() {
     let i = 0;
     for (let y = 0; y < this.height; y += this.tileSize) {
       for (let x = 0; x < this.width; x += this.tileSize) {
-        if (y < 128) {
+        if (y < 256) {
           buffer.drawImage(sprites.air.img, x, y);
           tiles[i++] = sprites.air.id;
         }
@@ -32,12 +32,6 @@ function Tilemap() {
         }
       }
     }
-
-    this.setTile(3, 3, sprites.dev_texture);
-    this.setTile(5, 6, sprites.dev_texture);
-    this.setTile(7, 5, sprites.dev_texture);
-    this.setTile(0, 7, sprites.dev_texture);
-    this.setTile(3, 7, sprites.dev_texture);
   }
 
   this.getTileWorldPos = (worldPosX, worldPosY) => {

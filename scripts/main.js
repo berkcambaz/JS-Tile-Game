@@ -2,7 +2,7 @@ import { tilemap } from "./tilemap.js";
 import { player } from "./entities/player.js";
 import { asset } from "./asset.js";
 import { input } from "./input.js";
-import { maths } from "./maths.js";
+import { ui } from "./ui.js";
 
 function init(callback) {
   const calls = 2;
@@ -13,7 +13,7 @@ function init(callback) {
 }
 
 init(() => {
-  tilemap.generate(16, 16);
+  tilemap.generate(32, 32);
 
   /** @type {HTMLCanvasElement} */
   const canvas = document.getElementById("main");
@@ -66,6 +66,7 @@ init(() => {
   function update() {
     tilemap.update();
     player.update();
+    ui.update();
 
     input.update();
   }
