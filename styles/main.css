@@ -10,19 +10,36 @@ canvas {
   display: block;
 }
 
-#inventory {
+.online-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  z-index: 100;
+}
+
+.online-menu__text {
+  display: inline-block;
+}
+
+.inventory {
   position: absolute;
   top: 0;
   left: 0;
   padding: 5px;
 }
 
-#inventory .row {
+.inventory__row {
   display: flex;
   flex-direction: row;
 }
 
-.item {
+.inventory__row__item {
   width: 32px;
   height: 32px;
   margin: 2px;
@@ -30,7 +47,7 @@ canvas {
   border-radius: 5px;
 }
 
-.item.selected {
+.inventory__row__item--selected {
   background-color: rgba(250, 229, 93, 0.9);
 }
 

@@ -3,6 +3,9 @@ import { player } from "./entities/player.js";
 import { asset } from "./asset.js";
 import { input } from "./input.js";
 import { ui } from "./ui.js";
+import { client } from "./client.js";
+
+window.client = client;
 
 function init(callback) {
   const calls = 2;
